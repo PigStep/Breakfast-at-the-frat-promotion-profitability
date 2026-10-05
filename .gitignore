@@ -149,6 +149,11 @@ activemq-data/
 # SageMath parsed files
 *.sage.py
 
+# DuckDB data (regenerate with `uv run load-data`)
+data/raw/
+data/*.duckdb
+data/*.duckdb.wal
+
 # Environments
 .env
 .envrc
