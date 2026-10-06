@@ -7,13 +7,7 @@ authors = [
     { name = "VlaDDOS", email = "vladsmertev24@gmail.com" }
 ]
 requires-python = ">=3.14"
-dependencies = [
-    "duckdb>=1.5.6",
-]
-
-[project.scripts]
-ecommerce-analysis = "ecommerce_analysis:main"
-load-data = "ecommerce_analysis.load:main"
+dependencies = []
 
 [build-system]
 requires = ["uv_build>=0.12.21,<0.13.0"]
