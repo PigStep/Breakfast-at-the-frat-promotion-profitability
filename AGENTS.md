@@ -15,6 +15,9 @@ store × SKU sales/promo panel (156 weeks, 524,950 transaction rows). All analys
   which resolves against the *current working directory*, not the notebook location.
   Launching Jupyter from the repo root silently breaks every data cell.
 - `uv run` works from `notebooks/` too (uv walks up to find `pyproject.toml`).
+- Static audit, no data needed: `cd notebooks && uv run jupyter nbconvert --to notebook
+  --execute --stdout 3_claims_audit.ipynb > /dev/null` — non-zero exit on failure, leaves
+  the notebook untouched.
 
 ## Data
 
@@ -42,19 +45,25 @@ store × SKU sales/promo panel (156 weeks, 524,950 transaction rows). All analys
 
 ## Notebook conventions
 
-- Files are numbered by analysis stage: `0_prelim_analysis`, `1_distribution_analysis`.
-  `EDA.ipynb` is scope only (question list, no code) — the top-level analysis lives there.
+- Files are numbered by analysis stage: `0_prelim_analysis`, `1_distribution_analysis`,
+  then `EDA.ipynb` (the main time-series and cohort analysis), then
+  `2_readme_figures.ipynb` (re-draws the committed PNGs) and `3_claims_audit.ipynb`
+  (static checks only — no data).
 - Each notebook opens with markdown stating its purpose and the questions it answers, and
   closes with a markdown findings/takeaways cell.
 - Numeric claims in prose must be printed by a code cell so they stay checkable against the
   data — that is the explicit standard stated in `1_distribution_analysis.ipynb`. An eyeballed
   reading is acceptable only when labelled as one (e.g. "raw plot approximation"); an
   unexplained statistic is not.
-- **No notebook carries committed outputs.** Every code cell in both notebooks is
-  `"outputs": []` with `execution_count: null` — 14 cells in `1_distribution_analysis.ipynb`,
-  17 in `0_prelim_analysis.ipynb`, true in HEAD as well as the working tree. So checking a prose
-  claim means re-running the cell, not reading the file. Don't strip or add outputs unasked;
-  committing this notebook's 6 figures is a size decision for the user, not a default.
+- Inferential claims carry their test in the same section, and the prose quotes what the
+  cell prints: HAC(4) + weekly-dummy + Mann-Kendall trend tests (§2), a permutation test on
+  the seasonal share (§3), Fisher-z intervals with Benjamini-Hochberg (§4), a cell-level
+  cluster bootstrap (§5.2), paired within-store tests (§5.3). Don't add a p-value without
+  the cell that prints it, and don't rank two estimates whose intervals overlap.
+- **No notebook carries committed outputs.** Every code cell ships `"outputs": []` with
+  `execution_count: null`, in HEAD as well as the working tree, so checking a prose claim
+  means re-running the cell rather than reading the file. Re-running to verify is expected;
+  committing the outputs is not. Don't strip or add outputs unasked.
 - `1_distribution_analysis.ipynb` closes with `## 6. Conclusion`: one findings paragraph per
   opening question, then an `**Open threads.**` bullet list carrying forward threads raised
   earlier in the prose. Open threads must not introduce a number no cell prints.
@@ -72,10 +81,12 @@ store × SKU sales/promo panel (156 weeks, 524,950 transaction rows). All analys
 - A stale `src/ecommerce_analysis/__pycache__/load.cpython-314.pyc` survives from that deleted
   module (untracked, gitignored). Verified: it does **not** revive the import, which still
   raises `ModuleNotFoundError`. Don't read its presence as evidence the module exists.
-- `README.md` documents a DuckDB pipeline (`uv run load-data`, `data/archive.zip`,
-  `data/raw/`, `data/analytics.duckdb`). All removed in `4066928`: DuckDB is not a
-  dependency, there is no `[project.scripts]`, and `data/archive.zip` does not exist.
-  Treat the README's Setup / Load / Query / Export sections as historical.
-- No tests, no linter or formatter config, no CI. Verification = re-run the notebook and
-  check the printed numbers against the prose claims.
+- `README.md` is current: it describes the notebooks, the committed figures and the
+  measured findings, and its `§` references are checked by `3_claims_audit.ipynb`. Any
+  DuckDB instructions you find (`uv run load-data`, `data/archive.zip`, `data/raw/`,
+  `data/analytics.duckdb`) are historical — removed in `4066928`; DuckDB is not a
+  dependency and there is no `[project.scripts]`.
+- No test suite, no linter or formatter config, no CI. Verification = the static checks in
+  `3_claims_audit.ipynb` plus re-running the notebook and checking the printed numbers
+  against the prose claims.
 - Commits use one-line conventional-commit English (`feat: add scipy dependency`).
