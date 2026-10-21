@@ -107,6 +107,10 @@ Each number below is printed by the section it cites; each chart is regenerated 
 - **Assortment, not demand, moves UPC reach.** 8 of the 55 UPCs do not span the 156
   weeks: three KING frozen pizzas enter on 2010-02-24 and `COLG SPEARMINT WISP` is
   delisted on 2011-03-30 — the panel's one clean exit event. *(EDA §5.4)*
+- **A promotion buys buyers, and the price cut is the weakest way to buy them.** A promo
+  week reaches **+76.5%** more buying households with cell and week held fixed, at
+  **$2.06** [$2.01, $2.11] per incremental household. Feature+display reaches +220.1%
+  against +10.4% for TPR-only, and all pairwise differences separate. *(EDA §5.5)*
 
 ### Promotion economics
 
@@ -129,6 +133,30 @@ use.*
 > profitability statement: the dataset has no cost field, and each charges the full shelf
 > discount to every promo unit, including units that would not have sold at all. See
 > `EDA.ipynb` §5.2.
+
+### Household acquisition
+
+Households, not revenue, are the unit this panel can actually price. Across 3,703 paired
+SKU–store cells a promo week reaches **+76.5%** more buying households with cell and week
+held fixed, and one more buying household costs **$2.06** [$2.01, $2.11] against $3.57M
+of discount. The cost is not uniform:
+
+| category | cost per incremental household |
+| --- | --- |
+| BAG SNACKS | $1.27 [$1.15, $1.41] |
+| COLD CEREAL | $1.85 [$1.80, $1.90] |
+| ORAL HYGIENE PRODUCTS | $2.77 [$2.69, $2.86] |
+| FROZEN PIZZA | $2.95 [$2.91, $3.00] |
+
+The four intervals do not overlap. Mechanism matters more than depth: measured within
+cell and week, TPR alone buys +10.4% reach, display +58.3%, feature +87.9%, and feature
+with display +220.1%. *(EDA §5.5)*
+
+> [!WARNING]
+> **$2.06 is a cost with no benefit attached.** There is no margin field, so it says what
+> a household cost, not what it returned. The average is also volume-weighted — the
+> largest 5% of cells supply 29.2% of the incremental households — so a small store
+> should not read it as its own.
 
 ### Basket economics
 
