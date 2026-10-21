@@ -116,16 +116,19 @@ units and takes **1.48x** the spend of that same cell's non-promo weeks.
 
 ![Discount given up against incremental spend](figures/02_promotion_economics.png)
 
-*The headline the notebook prints: $3.58M of discount against $3.07M of incremental
-spend, a return of 0.86x, cluster-bootstrapped to a 95% interval of [0.81, 0.91].*
+*Three crediting rules on the same $3.58M of discount and the same 3,857 cells: 0.86x
+under the notebook's median-lift rule, 1.19x [1.16, 1.22] as a per-cell median, and
+1.34x on observed promo spend. The direction of the verdict depends on which rule you
+use.*
 
 > [!WARNING]
-> **0.86x is not a profitability statement.** The ratio charges the full shelf discount
-> to every promo unit, including units that would not have sold at all, and the dataset
-> has no cost field to net them against. The bootstrap interval covers cell-to-cell
-> variation only — not the choice of crediting rule. Read it as the revenue-versus-discount
-> figure the notebook prints, with the caveats in `EDA.ipynb` §5.2 — not as a verdict on
-> whether promotion pays.
+> **0.86x is one crediting rule, not the answer.** The notebook reports three on the same
+> cells and the same discount, and the direction of the verdict turns on which one you
+> pick. The rule behind 0.86x multiplies a cross-cell *median* lift by a panel *mean*
+> baseline, so it is neither the typical cell nor the panel total. None of the three is a
+> profitability statement: the dataset has no cost field, and each charges the full shelf
+> discount to every promo unit, including units that would not have sold at all. See
+> `EDA.ipynb` §5.2.
 
 ### Basket economics
 
