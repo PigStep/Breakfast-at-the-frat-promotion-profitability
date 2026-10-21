@@ -1,4 +1,4 @@
-# Does trade promotion pay for itself?
+# What does it cost to buy one more household?
 
 ![Python](https://img.shields.io/badge/python-3.14-3776ab?logo=python&logoColor=white)
 ![pandas](https://img.shields.io/badge/pandas-3.0-150458?logo=pandas&logoColor=white)
@@ -7,10 +7,11 @@
 ### Price, promotion and basket economics across 77 US grocery stores, 2009–2012
 
 A notebook-first analysis of a weekly **store × SKU** grocery panel — 524,950 records
-of sales, price and promotion flags over 156 weeks. It asks what the discounting in the
-panel actually earns back, and what that answer depends on: whether the lift is real,
-whether the shelf price is set before or after demand, and whether a ratio of revenue
-to discount can stand in for a profit statement.
+of sales, price and promotion flags over 156 weeks. It asks what a promotion buys when
+the unit is a household rather than a dollar: how much discount it takes to add one more
+buying household, which kind of promotion does it, and whether that price survives the
+calendar. The revenue-versus-discount ratio it used to lead with is still here, now
+reported as a range, because the crediting rule moves it across break-even.
 
 ![Weekly units and spend, indexed to the first week](figures/01_units_vs_spend.png)
 
@@ -19,11 +20,12 @@ season-adjusted p = 0.037. `UNITS` has no slope distinguishable from zero (−0.
 p = 0.78), so the gap between the two lines is spend growth, not a volume decline.*
 
 > [!IMPORTANT]
-> The dataset carries **no customer identifier and no cost or margin field**. That rules
-> out household-level analysis entirely — no LTV, no retention, no cohort curves — and
-> it means promotion economics can be measured as *revenue against discount*, never as
-> profit. Both limits shape what the notebooks claim, and both are stated where they
-> bite rather than in a footnote.
+> The dataset carries **no customer identifier and no cost or margin field**. No household
+> can be followed across weeks, so there are no LTV, retention or cohort curves —
+> households appear only as per-row counts, which is enough to price the purchase of a
+> buyer but not to follow one. And with no cost field, promotion economics stop at
+> revenue against discount, never profit. Both limits shape what the notebooks claim, and
+> both are stated where they bite rather than in a footnote.
 
 The analysis is descriptive in the main. Inferential claims carry their test in the same
 notebook section — HAC and rank trend tests, a permutation test, Fisher-z intervals with
