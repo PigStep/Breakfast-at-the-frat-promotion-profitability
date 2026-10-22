@@ -1,4 +1,4 @@
-# What does it cost to buy one more household?
+# What does it cost to buy one more household (customer)?
 
 ![Python](https://img.shields.io/badge/python-3.14-3776ab?logo=python&logoColor=white)
 ![pandas](https://img.shields.io/badge/pandas-3.0-150458?logo=pandas&logoColor=white)
